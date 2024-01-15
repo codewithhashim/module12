@@ -12,6 +12,7 @@ connection.connect((error) => {
   if (error) throw error;
 
   console.log(``);
+
   console.log(
     chalk.green.bold(
       `====================================================================================`
@@ -453,13 +454,19 @@ const addRoleResume = async (departmentData) => {
     let departmentId;
 
     // Iterate over each element in departmentData array
-    departmentData.forEach((department) => {
-      // Check if the current departmentData element's departmentName matches department.department_name
-      if (departmentData.departmentName === department.department_name) {
-        // If there's a match, assign the department's id to the variable departmentId
-        departmentId = department.id;
-      }
-    });
+    console.log("Department Data:", departmentData);
+    if (Array.isArray(departmentData)) {
+      // Iterate over each element in departmentData array
+      departmentData.forEach((department) => {
+        // Check if the current departmentData element's departmentName matches department.department_name
+        if (answer.departmentName === department.department_name) {
+          // If there's a match, assign the department's id to the variable departmentId
+          departmentId = department.id;
+        }
+      });
+    } else {
+      console.error("Department data is not an array");
+    }
 
     // Define an SQL query string for inserting a new role into the "role" table
     const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
